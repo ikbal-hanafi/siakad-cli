@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "@whiskeysockets/baileys": "^6.2.1",
+    "express": "^4.18.2",
+    "jimp": "^0.22.8",
+    "node-html-parser": "^6.1.5",
+    "qrcode-terminal": "^0.12.0",
+    "request": "^2.88.2",
+    "tough-cookie-filestore": "^0.0.1"
+  }
+}
