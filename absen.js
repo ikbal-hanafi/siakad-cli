@@ -4,8 +4,7 @@ var request = require('request')
 
 const Jimp = require('jimp')
 const {parse} = require('node-html-parser')
-const FileCookieStore = require('tough-cookie-filestore');
-const j = request.jar(new FileCookieStore('cookies.json'));
+const j = request.jar();
 request = request.defaults({
    jar : j,
    headers: {
