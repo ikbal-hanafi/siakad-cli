@@ -75,7 +75,7 @@ async function login(usr, pwd){
                      var msg = b.match(/(?<=\<br\/\>)((Pre|Per)[A-Za-z\:\s0-9]+)/)[0]
                      if (b.toLowerCase().includes('tandai kehadiran')){
                         // notif absen dibuka
-                        resv({mk,msg})
+                        console.log(b)
                         var setabsen = parse(b).querySelector('form')
                         var acturl = setabsen.getAttribute('action')
                         var data = {};
@@ -86,6 +86,7 @@ async function login(usr, pwd){
                         request.post(acturl,(e,r,b) => {
                            console.log(b)
                         }).form(data)
+                        resv({mk,msg})
                      }
                   }).form({kls_id: id})
                   resv(false)
