@@ -1,4 +1,7 @@
 {
+   "scripts": {
+      "start": "node main.js"
+   },
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
     "@whiskeysockets/baileys": "^6.2.1",
