@@ -5,7 +5,7 @@ const {default: login} = require('./absen.js')
 const {default: wa} = require('./wa.js')
 
 app.get('/cekabsen/:nim/:pw/:gcid', async (req, res) => {
-  var id = req.params.nim
+  var nim = req.params.nim
   var pw = req.params.pw
   var gcid = req.params.gcid
   const msg = await login(nim, pw)
