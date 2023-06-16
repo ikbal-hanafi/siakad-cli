@@ -4,10 +4,13 @@ const app = express()
 const {default: login} = require('./absen.js')
 const {default: wa} = require('./wa.js')
 
-app.get('/cekabsen', async (req, res) => {
-  const msg = await login('D0121505', 'D0121505')
+app.get('/cekabsen/:nim/:pw/:gcid', async (req, res) => {
+  var id = req.params.nim
+  var pw = req.params.pw
+  var gcid = req.params.gcid
+  const msg = await login(nim, pw)
   if(msg !== '')
-      wa(`hallo semuanya silahkan absen\n*${msg}`, "6285341748143-1633925671@g.us")
+      wa(`hallo semuanya silahkan absen\n*${msg}`, gcid)
   res.send(`${msg}`)
 })
 

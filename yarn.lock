@@ -1362,7 +1362,7 @@ psl@^1.1.28:
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.9.0.tgz#d0df2a137f00794565fcaf3b2c00cd09f8d5a5a7"
   integrity sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==
 
-punycode@>=0.2.0, punycode@^2.1.0, punycode@^2.1.1:
+punycode@^2.1.0, punycode@^2.1.1:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"
   integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
@@ -1600,20 +1600,6 @@ token-types@^4.1.1, token-types@^4.2.1:
   dependencies:
     "@tokenizer/token" "^0.3.0"
     ieee754 "^1.2.1"
-
-tough-cookie-filestore@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/tough-cookie-filestore/-/tough-cookie-filestore-0.0.1.tgz#0bf2308ed293a50ba0733ed7d6289601485570b6"
-  integrity sha512-qPmhBHw6c+BE4LJ35lyq38MmKdmMPtdcUB07xxTcha/mrDRAtSctqk38ySuPXrUqq1IWmJThngQyY48dCrzqAA==
-  dependencies:
-    tough-cookie "~0.12.1"
-
-tough-cookie@~0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-0.12.1.tgz#8220c7e21abd5b13d96804254bd5a81ebf2c7d62"
-  integrity sha512-+gd4PklNJsxzu1NoNjhGRfOZZ5llND6VtQZGuaDXdmI0Ii79V5+YCa2sLx8Q6lYhYN2+9frCzUwOLQpuwHvO4Q==
-  dependencies:
-    punycode ">=0.2.0"
 
 tough-cookie@~2.5.0:
   version "2.5.0"
