@@ -77,7 +77,6 @@ async function login(usr, pwd){
                         var msg = b.match(/(?<=\<br\/\>)((Pre|Per)[A-Za-z\:\s0-9]+)/)[0]
                         if (b.toLowerCase().includes('tandai kehadiran')){
                            // notif absen dibuka
-                           console.log(b)
                            var setabsen = parse(b).querySelector('form')
                            var acturl = setabsen.getAttribute('action')
                            var data = {};
