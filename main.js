@@ -7,10 +7,12 @@ const {default: wa} = require('./wa.js')
 app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var nim = req.params.nim
   var pw = req.params.pw
-  var gcid = '6285341748143-1633925671@g.us' // custom
+  var gcid = process.env.gcid
   const msg = await login(nim, pw)
   if(msg !== '')
-      await wa(`hallo semuanya silahkan absen\n*${msg}`, gcid)
+    msg = `hallo semuanya silahkan absen\n*${msg}*`
+    await wa(msg, gcid)
+  }
   res.send(`${msg}`)
 })
 
