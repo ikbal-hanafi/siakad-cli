@@ -5,7 +5,8 @@ const {
    BufferJSON,
    useMultiFileAuthState,
    fetchLatestBaileysVersion,
-   } = require("@whiskeysockets/baileys")
+
+} = require("@whiskeysockets/baileys")
 
 const fs = require('fs')
 

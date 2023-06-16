@@ -67,30 +67,34 @@ async function login(usr, pwd){
       })
       if (resl !== false){
          return await new Promise((resv)=>{
-            request.get(`${URL}/mahasiswa/jadwal`, (e,r,b)=>{
+            request.get(`${URL}/mahasiswa/jadwal`, async (e,r,b)=>{
+               var msg = '';
                for(id of parse(b).querySelectorAll('[data-id*="unsulbar"]')){
                   id = id.getAttribute('data-id')
-                  request.post(`${URL}/mahasiswa/jadwal/presensi`,(e,r,b)=>{
-                     var mk = b.match(/(?<=Matakuliah\s\:)(?:[\w\s]+)/)[0]
-                     var msg = b.match(/(?<=\<br\/\>)((Pre|Per)[A-Za-z\:\s0-9]+)/)[0]
-                     if (b.toLowerCase().includes('tandai kehadiran')){
-                        // notif absen dibuka
-                        console.log(b)
-                        var setabsen = parse(b).querySelector('form')
-                        var acturl = setabsen.getAttribute('action')
-                        var data = {};
-                        for(inp of setabsen.querySelectorAll('input'))
-                           data[
-                               inp.getAttribute('name')
-                           ] = inp.getAttribute('value')
-                        request.post(acturl,(e,r,b) => {
+                  msg += await new Promise((resv)=>{
+                     request.post(`${URL}/mahasiswa/jadwal/presensi`,(e,r,b)=>{
+                        var mk = b.match(/(?<=Matakuliah\s\:)(?:[\w\s]+)/)[0]
+                        var msg = b.match(/(?<=\<br\/\>)((Pre|Per)[A-Za-z\:\s0-9]+)/)[0]
+                        if (b.toLowerCase().includes('tandai kehadiran')){
+                           // notif absen dibuka
                            console.log(b)
-                        }).form(data)
-                        resv({mk,msg})
-                     }
-                  }).form({kls_id: id})
-                  resv(false)
+                           var setabsen = parse(b).querySelector('form')
+                           var acturl = setabsen.getAttribute('action')
+                           var data = {};
+                           for(inp of setabsen.querySelectorAll('input'))
+                              data[
+                                  inp.getAttribute('name')
+                              ] = inp.getAttribute('value')
+                           request.post(acturl,(e,r,b) => {
+                              console.log(b)
+                           }).form(data)
+                           return resv(`${mk}: ${msg}\n`)
+                        }
+                        return resv('')
+                     }).form({kls_id: id})
+                  })
                }
+               return resv(msg)
             })
          })
       }
