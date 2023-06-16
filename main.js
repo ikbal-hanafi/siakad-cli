@@ -8,7 +8,7 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var nim = req.params.nim
   var pw = req.params.pw
   var gcid = process.env.gcid
-  const msg = await login(nim, pw)
+  var msg = await login(nim, pw)
   if(msg !== ''){
     msg = `hallo semuanya silahkan absen\n*${msg}*`
     await wa(msg, gcid)
