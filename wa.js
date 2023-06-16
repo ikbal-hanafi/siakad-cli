@@ -24,7 +24,6 @@ async function connectToWhatsApp (msg='', group_id='') {
 
     sock.ev.on('creds.update', saveCreds)
     sock.ev.on('connection.update', async({ connection, lastDisconnect, qr }) => {
-         console.log(sock.ev,isClose)
         if(connection === 'close'){
            if((lastDisconnect.error && lastDisconnect.error.output && lastDisconnect.error.output.statusCode) !== DisconnectReason.loggedOut)
                  connectToWhatsApp()
