@@ -10,7 +10,7 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var gcid = '6285341748143-1633925671@g.us' // custom
   const msg = await login(nim, pw)
   if(msg !== '')
-      wa(`hallo semuanya silahkan absen\n*${msg}`, gcid)
+      await wa(`hallo semuanya silahkan absen\n*${msg}`, gcid)
   res.send(`${msg}`)
 })
 
