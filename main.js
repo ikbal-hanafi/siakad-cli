@@ -9,7 +9,7 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var pw = req.params.pw
   var gcid = process.env.GCID
   var msg = await login(nim, pw)
-  if(msg !== 'invalid')
+  if(msg === 'invalid')
     return res.send('invalid password atau username')
   if(msg !== ''){
     msg = `silahkan absen\n*${msg}*`
