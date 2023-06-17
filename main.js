@@ -9,11 +9,13 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var pw = req.params.pw
   var gcid = process.env.GCID
   var msg = await login(nim, pw)
+  if(msg !== 'invalid')
+    return res.send('invalid password atau username')
   if(msg !== ''){
-    msg = `hallo semuanya silahkan absen\n*${msg}*`
+    msg = `silahkan absen\n*${msg}*`
     await wa(msg, gcid)
   }
-  res.send(msg)
+  return res.send(msg)
 })
 
 app.listen(process.env.PORT || 3000, () => {

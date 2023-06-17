@@ -19,6 +19,8 @@ async function login(usr, pwd){
          request.get(`${URL}/login`, (err, res, body) => {
             if(body.includes('/logout'))
                return resv(body)
+            if(body.toLowerCase().includes('invalid password or username'))
+               return resv('invalid')
             var root = parse(body)
             var form = root.querySelector('form[action*="login/act"]');
             var data = {};
@@ -65,6 +67,8 @@ async function login(usr, pwd){
             })
          })
       })
+      if (resl === 'invalid')
+         return resl
       if (resl !== false){
          return await new Promise((resv)=>{
             request.get(`${URL}/mahasiswa/jadwal`, async (e,r,b)=>{
