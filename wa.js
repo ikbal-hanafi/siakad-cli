@@ -26,15 +26,14 @@ async function connectToWhatsApp (msg='', group_id='') {
     sock.ev.on('connection.update', async({ connection, lastDisconnect, qr }) => {
         if(connection === 'close'){
            if((lastDisconnect.error && lastDisconnect.error.output && lastDisconnect.error.output.statusCode) !== DisconnectReason.loggedOut)
-                 connectToWhatsApp()
+                 connectToWhatsApp(msg, group_id)
            else return console.log('eror tidak bisa loging')
        }else if(connection === 'open'){
          var users = (await sock.groupMetadata(group_id)).participants.map(x => x.id).filter(x => !sock.user.id.includes(x.split('@')[0]))
-         await sock.sendMessage(group_id, {text: msg, mentions: users})
+         sock.sendMessage(group_id, {text: msg, mentions: users})
          sock.ev.removeAllListeners()
        }
     })
-
 }
 
 

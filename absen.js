@@ -16,7 +16,7 @@ async function login(usr, pwd){
    const URL = 'https://siakad.unsulbar.ac.id'
    while (true) {
      var resl = await new Promise((resv) => {
-         request.get('https://siakad.unsulbar.ac.id/login', (err, res, body) => {
+         request.get(`${URL}/login`, (err, res, body) => {
             if(body.includes('/logout'))
                return resv(body)
             var root = parse(body)
@@ -87,7 +87,7 @@ async function login(usr, pwd){
                            request.post(acturl,(e,r,b) => {
                               console.log(b)
                            }).form(data)
-                           return resv(`${mk}: ${msg}\n`)
+                           return resv(`${mk} ${msg}\n`)
                         }
                         return resv('')
                      }).form({kls_id: id})
