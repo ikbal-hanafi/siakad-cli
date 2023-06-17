@@ -13,7 +13,7 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
     msg = `hallo semuanya silahkan absen\n*${msg}*`
     await wa(msg, gcid)
   }
-  res.send('buka absen')
+  res.send(msg)
 })
 
 app.listen(process.env.PORT || 3000, () => {
