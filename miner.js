@@ -232,14 +232,13 @@ async function miner(kunci, puki){
          if(gagal === 2) return `gagal login ${gagal} kali percobaan`;
          var signa = await fetchCek()
          var TB = signa.transactionBytes
-         console.log(TB)
          if(TB){
             return await new Promise(resv =>{
                signer.signTransactionBlock({
                         transactionBlock: TransactionBlock.from(TB)
                     }).then(async ({signature}) => {
                         var result = await exTx(TB, [signature, signa.signature])
-                        resv(result)
+                        resv(JSON.stringify(result))
                     })
             })
          } else gagal++
