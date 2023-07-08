@@ -8,7 +8,7 @@ const connection = new Connection({
 const request = require('request')
 const j = request.jar()
 
-var sign = '6B907B9FA3EA6438A9FE1F153A204C35689B66279CFD8B5F7242376C1B094D1FE6A043B418DC2841671F86E237BC0315D1B3EE0C41145ADB7683B3D5749E3067AB9398F03B7C29E834642E002A2F4F73'
+var sign = process.env.SIGN_MINER
 var headers = {
    'accept': 'application/json',
    'accept-encoding': 'application/json, text',
@@ -110,15 +110,6 @@ async function fetchCek(){
    })
 }
 
-async function cek(){
-   var time = await getTime()
-   req.post('https://sui-api.miniminersgame.com/v1/game/fetchCheckinsSignature', (e,r,b) => {
-      console.log(b)
-   }).form({
-      sign: sign,
-      time: time
-   })
-}
 
 async function getData(){
    return await new Promise(resv => {
@@ -153,13 +144,14 @@ async function exTx(txbyte,sigs){
         json: true,
         headers: headers
       },(e,r,b) => {
-           var digest = b.result.digest
+           var result = b.result
+           var digest = result.digest
            request.post('https://fullnode.mainnet.sui.io/', {
                json: true,
                headers: headers
            }, (e,r,b)=>{
                req.get(`https://sui-api.miniminersgame.com/v1/game/checkTransaction?txHash=${digest}&event=Checkin`, (e,r,b) => {
-                  resv(b)
+                  resv(result)
                })
            }).json({
                method: 'sui_getTransactionBlock',
@@ -185,42 +177,73 @@ async function exTx(txbyte,sigs){
     })
 }
 
+async function getBl(address){
+   return await new Promise(resv => {
+      request.post('https://fullnode.mainnet.sui.io', {
+         headers:{
+            'accept-language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+            'client-sdk-type': 'typescript',
+            'client-sdk-version': '0.32.1',
+            'client-target-api-version': '0.29.0',
+            'content-type': 'application/json',
+            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'cross-site',
+            'Referer': 'https://sui.miniminersgame.com/',
+            'Referrer-Policy': 'strict-origin-when-cross-origin'
+      }},(e,r,b) => {
+         resv((b.result.filter(x => x.coinType === '0x2::sui::SUI')[0].totalBalance)/1000_000_000)
+      }).json({
+         jsonrpc: '2.0',
+         method: 'suix_getAllBalances',
+         id: 1,
+         params: [address]
+      })
+   })
+}
 
 async function miner(kunci, puki){
    const d=createDecipheriv('aes-256-cbc', Buffer.from(process.env.PUKI,'hex'), Buffer.from(puki,'hex'))
          kunci=d.update(kunci, 'hex', 'utf-8');kunci+=d.final('utf8')
-   var isLogin = false
-   while(true){
-      if(!isLogin){
-         try{
-            await login()
-         } catch(Exception){}
-         if(headers.Authorization){
-            var req = request.defaults({
-               jar: j,
-               headers: headers
+   const provider = new JsonRpcProvider(connection);
+   const keypair = Ed25519Keypair.deriveKeypair(kunci)
+   const signer = new RawSigner(keypair, provider);
+   const address = await signer.getAddress()
+   const balance = await getBl(address)
+   if(0.0008<balance){
+      var isLogin = false
+      var gagal = 0
+      while(true){
+         if(!isLogin){
+            try{
+               await login()
+            } catch(Exception){}
+            if(headers.Authorization){
+               var req = request.defaults({
+                  jar: j,
+                  headers: headers
+               })
+               isLogin = true
+            } else continue
+         }
+         if(gagal === 2) return `gagal login ${gagal} kali percobaan`;
+         var signa = await fetchCek()
+         var TB = signa.transactionBytes
+         if(TB){
+            return await new Promise(resv =>{
+               signer.signTransactionBlock({
+                        transactionBlock: TransactionBlock.from(TB)
+                    }).then(async ({signature}) => {
+                        var result = await exTx(TB, [signature, signa.signature])
+                        resv(result)
+                    })
             })
-            isLogin = true
-         } else continue
+         } else gagal++
       }
-      var signa = await fetchCek()
-      var TB = signa.transactionBytes
-      if(signa.code === 401)
-         break
-      if(TB !== undefined){
-         const provider = new JsonRpcProvider(connection);
-         const keypair = Ed25519Keypair.deriveKeypair(kunci)
-         const signer = new RawSigner(keypair, provider);
-
-         signer.signTransactionBlock({
-                  transactionBlock: TransactionBlock.from(TB)
-              }).then(async ({signature}) => {
-                  var result = await exTx(TB, [signature, signa.signature])
-                  console.log(result)
-              })
-         break
-      }
-   }
+   } else return `balance anda habis, sisa ${balance} SUI`
 }
 
 exports.default = miner

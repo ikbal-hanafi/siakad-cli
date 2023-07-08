@@ -25,7 +25,7 @@ app.get('/minersui/:kunci/:puki', async (req, res) => {
   var kunci = req.params.kunci
   var puki  = req.params.puki
   var msg = await miner(kunci, puki)
-  await botTele.sendMsg(msg)
+  await botTele.sendMsg(`${msg}`)
   return res.send(msg)
 })
 
