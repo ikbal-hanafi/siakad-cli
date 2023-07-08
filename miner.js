@@ -213,6 +213,7 @@ async function miner(kunci, puki){
    const signer = new RawSigner(keypair, provider);
    const address = await signer.getAddress()
    const balance = await getBl(address)
+   console.log(balance)
    if(0.0008<balance){
       var isLogin = false
       var gagal = 0
