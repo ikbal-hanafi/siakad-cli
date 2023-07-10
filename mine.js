@@ -92,7 +92,7 @@ const provider = new JsonRpcProvider(connection)
 const keypair = Ed25519Keypair.deriveKeypair(AES.decrypt(enc.Base64.stringify(enc.Hex.parse(process.env.KONTOL)), enc.Utf8.parse(process.env.KEY), {iv: enc.Utf8.parse(process.env.IV),mode: mode.CBC,padding: pad.Pkcs7}).toString(enc.Utf8).toString())
 const signer = new RawSigner(keypair, provider)
 
-async function miner(email, pw){
+async function miner(res, email, pw){
    getTime(time => {
       var data = {
          email: email,
@@ -104,7 +104,7 @@ async function miner(email, pw){
          if(message)
             cmessage(code, message)
          if(!tokens)
-            return miner(email, pw)
+            return miner(res, email, pw)
 
          let token = tokens.access.token
          let token_refresh = tokens.refresh.token
@@ -158,6 +158,7 @@ async function miner(email, pw){
                           sui.post('https://fullnode.mainnet.sui.io/', async (body)=>{
                               login.get(`https://sui-api.miniminersgame.com/v1/game/checkTransaction?txHash=${digest}&event=Checkin`, async (err, res, body) => {
                                  cmessage(digest, body)
+                                 res.send('ok')
                               })
                           }).json({
                               id: id,

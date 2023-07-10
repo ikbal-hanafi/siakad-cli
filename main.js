@@ -20,8 +20,7 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
 })
 
 app.get('/miner', (req, res) => {
-   miner(process.env.EMAILM, process.env.PWM)
-//   res.send('')
+   miner(res, process.env.EMAILM, process.env.PWM)
 })
 
 
