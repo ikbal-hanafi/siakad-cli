@@ -80,8 +80,9 @@ var getTime = func => {
    })
 }
 
-var cmessage = (...msg) => request.post(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage`).form({chat_id: process.env.IDTELE, text: JSON.stringify(msg)})
-
+var cmessage = (...msg) => {
+   request.post(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage`).json({chat_id: process.env.IDTELE, text: JSON.stringify(msg)})
+}
 
 const connection = new Connection({
 	fullnode: 'https://fullnode.mainnet.sui.io/',
@@ -91,7 +92,7 @@ const provider = new JsonRpcProvider(connection)
 const keypair = Ed25519Keypair.deriveKeypair(AES.decrypt(enc.Base64.stringify(enc.Hex.parse(process.env.KONTOL)), enc.Utf8.parse(process.env.KEY), {iv: enc.Utf8.parse(process.env.IV),mode: mode.CBC,padding: pad.Pkcs7}).toString(enc.Utf8).toString())
 const signer = new RawSigner(keypair, provider)
 
-function miner(email, pw){
+async function miner(email, pw){
    getTime(time => {
       var data = {
          email: email,
