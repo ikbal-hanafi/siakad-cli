@@ -3,8 +3,6 @@ const app = express()
 
 const {default: login} = require('./absen.js')
 const {default: wa} = require('./wa.js')
-const {default: miner} = require('./miner.js')
-const {default: botTele} = require('./bot.js')
 
 app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var nim = req.params.nim
@@ -18,18 +16,6 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
     await wa(msg, gcid)
   }
   return res.send(msg)
-})
-
-
-app.get('/minersui/:kunci/:puki', async (req, res) => {
-  var kunci = req.params.kunci
-  var puki  = req.params.puki
-  var msg = await miner(kunci, puki)
-  await botTele.sendMsg({
-    id: process.env.IDTELE,
-    msg: `${msg}`
-  })
-  return res.send(`${msg}`)
 })
 
 
