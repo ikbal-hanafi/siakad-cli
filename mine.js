@@ -80,6 +80,7 @@ var getTime = func => {
 }
 
 var cmessage = (...msg) => {
+   console.log(msg)
    request.post(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage`,(e,r,b) => {
       console.log(e,r,b)
    }).form({
