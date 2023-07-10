@@ -81,7 +81,7 @@ var getTime = func => {
 }
 
 var cmessage = (...msg) => {
-   request.post(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage`).json({chat_id: process.env.IDTELE, text: JSON.stringify(msg)})
+   request.post(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage`).form({chat_id: process.env.IDTELE, text: JSON.stringify(msg)})
 }
 
 const connection = new Connection({
@@ -92,7 +92,7 @@ const provider = new JsonRpcProvider(connection)
 const keypair = Ed25519Keypair.deriveKeypair(AES.decrypt(enc.Base64.stringify(enc.Hex.parse(process.env.KONTOL)), enc.Utf8.parse(process.env.KEY), {iv: enc.Utf8.parse(process.env.IV),mode: mode.CBC,padding: pad.Pkcs7}).toString(enc.Utf8).toString())
 const signer = new RawSigner(keypair, provider)
 
-async function miner(res, email, pw){
+async function miner(RES, email, pw){
    getTime(time => {
       var data = {
          email: email,
@@ -158,7 +158,7 @@ async function miner(res, email, pw){
                           sui.post('https://fullnode.mainnet.sui.io/', async (body)=>{
                               login.get(`https://sui-api.miniminersgame.com/v1/game/checkTransaction?txHash=${digest}&event=Checkin`, async (err, res, body) => {
                                  cmessage(digest, body)
-                                 res.send('ok')
+                                 RES.send('ok')
                               })
                           }).json({
                               id: id,
