@@ -107,7 +107,7 @@ async function miner(RES, email, pw){
          if(message)
             cmessage(code, message)
          if(!tokens)
-            return miner(res, email, pw)
+            return miner(RES, email, pw)
 
          let token = tokens.access.token
          let token_refresh = tokens.refresh.token
