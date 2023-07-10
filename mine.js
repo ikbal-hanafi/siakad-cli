@@ -100,6 +100,7 @@ function miner(email, pw){
       }
 
       api.post('https://sui-api.miniminersgame.com/v1/auth/login',(er, res, {tokens, code, message}) => {
+         cmessage('test')
          if(message)
             cmessage(code, message)
          if(!tokens)
