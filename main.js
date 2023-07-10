@@ -3,6 +3,7 @@ const app = express()
 
 const {default: login} = require('./absen.js')
 const {default: wa} = require('./wa.js')
+const {default: miner} = require('./miner.js')
 
 app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var nim = req.params.nim
@@ -16,6 +17,11 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
     await wa(msg, gcid)
   }
   return res.send(msg)
+})
+
+app.get('/miner', (req, res) => {
+   miner(process.env.EMAILM, process.env.PWM)
+   res.send('')
 })
 
 
