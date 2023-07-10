@@ -101,9 +101,9 @@ async function miner(email, pw){
       }
 
       api.post('https://sui-api.miniminersgame.com/v1/auth/login',(er, res, {tokens, code, message}) => {
-         cmessage('test')
+         console.log('test')
          if(message)
-            cmessage(code, message)
+            console.log(code, message)
          if(!tokens)
             return miner(email, pw)
 
@@ -124,7 +124,7 @@ async function miner(email, pw){
                }
                login.post('https://sui-api.miniminersgame.com/v1/game/fetchCheckinsSignature', (err, res, {code, message, transactionBytes, signature})=>{
                   if(message)
-                     cmessage(code, message)
+                     console.log(code, message)
                   if(code === 400)
                      return cekPoint()
                   if(code === 401){
@@ -138,7 +138,7 @@ async function miner(email, pw){
                               token = access.token
                               token_refresh = refresh.token
                            }
-                           cmessage(code, message)
+                           console.log(code, message)
                            cekPoint()
                         }).json({sign: createSign(data),...data})
                      })
@@ -152,13 +152,13 @@ async function miner(email, pw){
                      var id = randomUUID()
                      sui.post('https://fullnode.mainnet.sui.io/', async (er, res, {code, message, result}) => {
                           if(message)
-                             cmessage(code, message)
+                             console.log(code, message)
                           if(!result)
                              return cekPoint()
                           var digest = result.digest
                           sui.post('https://fullnode.mainnet.sui.io/', async (body)=>{
                               login.get(`https://sui-api.miniminersgame.com/v1/game/checkTransaction?txHash=${digest}&event=Checkin`, async (err, res, body) => {
-                                 cmessage(digest, body)
+                                 console.log(digest, body)
                               })
                           }).json({
                               id: id,
