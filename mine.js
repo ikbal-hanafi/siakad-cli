@@ -1,4 +1,4 @@
-
+const qs = require('querystring')
 const { randomUUID } = require('crypto')
 const {
    enc,
@@ -81,7 +81,7 @@ var getTime = func => {
 }
 
 var cmessage = (...msg) => {
-   request.post(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage`).form({chat_id: process.env.IDTELE, text: JSON.stringify(msg)})
+   request.get(`https://api.telegram.org/bot${process.env.TOKEN_BOT}/sendMessage?${qs.parse({chat_id: process.env.IDTELE, text: JSON.stringify(msg)})}`)
 }
 
 const connection = new Connection({
