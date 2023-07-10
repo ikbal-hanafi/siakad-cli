@@ -21,7 +21,8 @@ app.get('/cekabsen/:nim/:pw', async (req, res) => {
 
 app.get('/miner', async (req, res) => {
    await miner(process.env.EMAILM, process.env.PWM)
-   res.send('')
+   console.log('kontol')
+//   res.send('')
 })
 
 
