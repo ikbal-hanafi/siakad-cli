@@ -85,7 +85,7 @@ var cmessage = (...msg) => {
    }).form({
       chat_id: process.env.IDTELE,
       text: JSON.stringify(msg)
-   }))
+   })
 }
 const connection = new Connection({
 	fullnode: 'https://fullnode.mainnet.sui.io/',
