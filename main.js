@@ -3,7 +3,7 @@ const app = express()
 
 const {default: login} = require('./absen.js')
 const {default: wa} = require('./wa.js')
-const {default: miner} = require('./miner.js')
+const {default: miner} = require('./mine.js')
 
 app.get('/cekabsen/:nim/:pw', async (req, res) => {
   var nim = req.params.nim
